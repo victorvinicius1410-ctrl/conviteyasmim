@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Convite — Yasmim Francine</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /*
+      ═══════════════════════════════════════════════════════════════
+      GUIA RÁPIDO: ONDE EDITAR TAMANHO DA MENINA E DO LAÇO
+      ═══════════════════════════════════════════════════════════════
+      Use Ctrl+F (ou Cmd+F no Mac) e busque:
+
+      1) MENINA (tamanho no computador):
+         Busque: EDITAR MENINA
+         Você verá duas linhas:
+         - max-height: ... 560px  → mude 560 (altura; maior = menina mais alta)
+         - max-width: ... 260px   → mude 260 (largura; maior = menina mais larga)
+
+      2) MENINA no celular:
+         Busque: EDITAR MENINA CELULAR
+         - max-height e max-width (ex: 260 e 118) → ajuste para celular
+
+      3) LAÇO (tamanho):
+         Busque: EDITAR LAÇO
+         - max-width: ... 900px   → mude 900 (maior = laço mais largo)
+      ═══════════════════════════════════════════════════════════════
+    */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      min-height: 100dvh;
+      background: #ffffff;
+      font-family: 'Cormorant Garamond', serif;
+      overflow-x: hidden;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .convite-wrapper {
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+    }
+
+    /* Logo em cima — sempre visível na capa */
+    .logo-area {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: clamp(8px, 2vw, 24px) clamp(10px, 3vw, 32px);
+      padding-top: max(clamp(8px, 2vw, 24px), env(safe-area-inset-top));
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 30;
+      transition: opacity 0.4s ease;
+    }
+    .convite-wrapper.aberto .logo-area {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .logo-topo {
+      width: auto;
+      height: auto;
+      max-width: min(28vw, 130px);
+      max-height: min(28vw, 130px);
+      aspect-ratio: 1;
+      object-fit: contain;
+      display: block;
+    }
+
+    /* Vídeo: desktop preenche tela (cover) sem colunas; mobile contain para laço inteiro */
+    .video-capa {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      min-height: 100vh;
+      min-height: 100dvh;
+      z-index: 10;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .video-capa video {
+      width: 100%;
+      height: 100%;
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: cover;
+      object-position: 48% 42%;
+      display: block;
+    }
+    .convite-wrapper.aberto .video-capa {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+
+    /* Texto "Clique no laço" — em cima do laço (sobre o laço), não acima do vídeo */
+    .video-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 12;
+      transition: opacity 0.4s ease, visibility 0.4s ease;
+    }
+    .video-overlay.oculto {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .video-overlay span {
+      position: relative;
+      top: 2%;
+      color: #000;
+      font-size: clamp(0.9rem, 2.2vw + 0.5rem, 1.1rem);
+      letter-spacing: 0.04em;
+    }
+
+    /* Celular: vídeo contain para laço inteiro; texto em cima do laço */
+    @media (max-width: 768px) {
+      .logo-area {
+        padding-left: 12px;
+        padding-right: 12px;
+      }
+      .video-capa video {
+        object-fit: contain;
+        object-position: 48% 42%;
+        transform: scale(1.15);
+        transform-origin: center center;
+      }
+      .video-overlay span {
+        top: 3%;
+        font-size: 0.95rem;
+      }
+    }
+    @media (max-width: 480px) {
+      .video-overlay span {
+        top: 3%;
+      }
+      .interior-convite {
+        padding: max(12px, env(safe-area-inset-top)) 14px 20px;
+        padding-bottom: max(20px, env(safe-area-inset-bottom));
+      }
+      .interior-convite .logo-interior {
+        max-width: min(32vw, 100px);
+        max-height: min(32vw, 100px);
+      }
+      .interior-convite .conteudo {
+        max-width: 100%;
+      }
+      .interior-convite h1 {
+        font-size: 1.7rem;
+      }
+      .interior-convite p {
+        font-size: 0.92rem;
+      }
+    }
+
+    /* Interior do convite — início em branco, resto com fundo feminino rosa */
+    .interior-convite {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      min-height: 100dvh;
+      background: linear-gradient(180deg, #ffffff 0%, #ffffff 18%, #fef5f8 35%, #fce8ef 55%, #fce8ef 80%, #fef5f8 100%);
+      padding: 0;
+      padding-bottom: max(16px, env(safe-area-inset-bottom));
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      opacity: 0;
+      visibility: hidden;
+      z-index: 20;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+    .convite-wrapper.aberto .interior-convite {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* Faixa inicial em branco (só o logo) */
+    .interior-convite-inicio {
+      background: #ffffff;
+      padding: max(14px, env(safe-area-inset-top)) clamp(12px, 3vw, 24px) clamp(14px, 3vw, 22px);
+    }
+    .interior-convite .logo-interior {
+      width: auto;
+      height: auto;
+      max-width: min(26vw, 120px);
+      max-height: min(26vw, 120px);
+      aspect-ratio: 1;
+      object-fit: contain;
+      margin: 0 auto;
+      display: block;
+    }
+
+    /* Corpo: grid para título e descrição na mesma coluna (centralizados juntos) */
+    .interior-convite-corpo {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0 clamp(0.75rem, 3vw, 1.5rem);
+      max-width: min(920px, 96vw);
+      margin: 0 auto;
+      padding: 4px clamp(12px, 2vw, 20px);
+    }
+    .interior-convite-titulo {
+      grid-column: 1 / -1;
+      grid-row: 1;
+      text-align: center;
+      margin-bottom: clamp(0.4rem, 1.5vw, 0.9rem);
+    }
+    .interior-convite-titulo h1 {
+      margin-bottom: 0.2rem;
+    }
+    .interior-convite-titulo .subtitulo {
+      margin-bottom: 0;
+    }
+
+    /* Layout: menina col 1, descrição + botões col 2 (título já está na col 2 em cima) */
+    .interior-convite-layout {
+      display: contents;
+    }
+    .interior-convite-ilustracao {
+      grid-column: 1;
+      grid-row: 2;
+      flex-shrink: 0;
+      margin-top: -1.2rem;   /* ← menina mais para cima: aumente o número (ex: -3rem) para subir mais */
+    }
+    .interior-convite .conteudo {
+      grid-column: 2;
+      grid-row: 2;
+    }
+    /* ═══ EDITAR MENINA (computador) — mude os números 560 e 260 abaixo ═══ */
+    .interior-convite-ilustracao img {
+      display: block;
+      height: auto;
+      max-height: min(82vh, 560px);   /* ← altura: mude 560 (ex: 400 menor, 700 maior) */
+      width: auto;
+      max-width: min(260px, 32vw);   /* ← largura: mude 260 (ex: 200 menor, 320 maior) */
+      object-fit: contain;
+      object-position: left center;
+    }
+    .interior-convite-ilustracao.ilustracao-direita {
+      display: none;
+    }
+
+    .interior-convite .conteudo {
+      flex: 1;
+      min-width: 0;
+      text-align: center;
+      color: #4a3c42;
+      font-size: clamp(0.95rem, 2.5vw, 1.12rem);
+      line-height: 1.6;
+      letter-spacing: 0.02em;
+      padding-top: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .interior-convite .conteudo p,
+    .interior-convite .conteudo .observacao {
+      max-width: 360px;
+    }
+    .interior-convite .conteudo::before {
+      display: none;
+    }
+    .interior-convite h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.75rem, 5.5vw, 2.8rem);
+      font-weight: 600;
+      color: #DD92A6;
+      margin-bottom: 0.2rem;
+      letter-spacing: 0.03em;
+    }
+    /* Idade em letra normal */
+    .interior-convite .subtitulo {
+      font-size: clamp(1.15rem, 3.2vw, 1.5rem);
+      font-weight: 400;
+      color: #7d6a70;
+      margin-bottom: clamp(0.6rem, 2vw, 1rem);
+      letter-spacing: 0.02em;
+    }
+    .interior-convite p {
+      font-size: inherit;
+      line-height: inherit;
+      margin-bottom: 0.5rem;
+    }
+    .interior-convite p strong {
+      color: #7d5c65;
+    }
+    .interior-convite .observacao {
+      margin-top: 0.85rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid rgba(180, 140, 150, 0.3);
+      color: #6d5c62;
+      font-weight: 500;
+      font-style: italic;
+      font-size: 0.95em;
+    }
+
+    /* Botões: WhatsApp e Localização */
+    .convite-botoes {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(1.25rem, 4vw, 2rem);
+      margin-top: clamp(1rem, 3vw, 1.5rem);
+      flex-wrap: wrap;
+    }
+    .convite-botoes a {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+      text-decoration: none;
+      color: #4a3c42;
+      font-size: 0.8rem;
+      font-weight: 500;
+      transition: transform 0.2s ease;
+    }
+    .convite-botoes a:hover {
+      transform: scale(1.05);
+    }
+    .convite-botoes .btn-icone {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: linear-gradient(145deg, #e8a4b8, #d88a9e);
+      box-shadow: 0 4px 12px rgba(200, 120, 140, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .convite-botoes .btn-icone svg {
+      width: 26px;
+      height: 26px;
+      fill: #fff;
+    }
+    .convite-botoes-legend {
+      margin-top: 0.5rem;
+      margin-bottom: 0;
+      font-size: 0.78rem;
+      color: #8b7a80;
+      font-style: italic;
+    }
+
+    /* ═══ EDITAR LAÇO — tamanho: mude 900 abaixo; posição: veja .convite-laco-final acima ═══ */
+    .convite-laco-final {
+      text-align: left;
+      padding: 0.8rem clamp(4px, 1vw, 8px) 0;
+      padding-left: clamp(4px, 2vw, 16px);
+      margin-top: -5.0rem;
+      margin-left: -40px;
+    }
+    .convite-laco-final img {
+      display: block;
+      margin: 0 auto 0 0;
+      width: 80%;
+      max-width: min(98vw, 870px);   /* ← tamanho do laço: mude 900 (ex: 700 menor, 1000 maior) */
+      height: auto;
+      filter: drop-shadow(0 4px 20px rgba(200, 140, 160, 0.25));
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: crisp-edges;
+    }
+    .convite-laco-final::before {
+      display: none;
+    }
+
+    /* No computador: esconde o laço no fim do convite */
+    @media (min-width: 769px) {
+      .convite-laco-final {
+        display: none;
+      }
+    }
+
+    /* ═══ EDITAR MENINA CELULAR — mude 260 e 118 para tamanho no celular ═══ */
+    @media (max-width: 768px) {
+      .interior-convite-corpo {
+        padding: 13px;
+      }
+      .interior-convite-titulo h1 {
+        font-size: clamp(1.85rem, 7vw, 2.4rem);
+      }
+      .interior-convite-titulo .subtitulo {
+        font-size: clamp(1.35rem, 5vw, 1.6rem);
+      }
+      .interior-convite-ilustracao img {
+        max-height: min(62vh, 365px);   /* ← mude 260 */
+        max-width: min(32vw, 100px);   /* ← mude 118 */
+      }
+      .interior-convite .conteudo {
+        font-size: 0.95rem;
+      }
+      .convite-botoes .btn-icone {
+        width: 48px;
+        height: 48px;
+      }
+      .convite-botoes .btn-icone svg {
+        width: 24px;
+        height: 24px;
+      }
+    }
+    /* Telas bem pequenas — menina e título */
+    @media (max-width: 480px) {
+      .interior-convite-titulo h1 {
+        font-size: 1.75rem;
+      }
+      .interior-convite-titulo .subtitulo {
+        font-size: 1.35rem;
+      }
+      .interior-convite-ilustracao img {
+        max-height: 240px;
+        max-width: 108px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="convite-wrapper" id="convite">
+    <header class="logo-area">
+      <img class="logo-topo" src="assets/logo-ya.png" alt="YA" />
+    </header>
+
+    <div class="video-capa" id="videoCapa">
+      <video id="videoAbertura" src="0309.mp4" playsinline></video>
+      <div class="video-overlay" id="playOverlay">
+        <span>Clique no laço</span>
+      </div>
+    </div>
+
+    <div class="interior-convite">
+      <div class="interior-convite-inicio">
+        <img class="logo-interior" src="assets/logo-ya.png" alt="YA" />
+      </div>
+      <div class="interior-convite-corpo">
+        <div class="interior-convite-titulo">
+          <h1>Yasmim Alvares</h1>
+          <p class="subtitulo">21 anos</p>
+        </div>
+        <div class="interior-convite-layout">
+          <div class="interior-convite-ilustracao">
+            <img src="Foto da menina.png" alt="" />
+          </div>
+          <div class="conteudo">
+          <p>Você está convidado(a) para celebrar com a gente.</p>
+          <p><strong>29 de março de 2026</strong> · Domingo · 18h00</p>
+          <p>Rua São Lucas n° 139<br>Jd São Lázaro<br>Ferraz de Vasconcelos</p>
+          <p class="observacao">Observação: é necessário levar 1 kg de carne.</p>
+          <div class="convite-botoes">
+            <a href="https://wa.me/5511967416925" id="btnWhatsApp" target="_blank" rel="noopener">
+              <span class="btn-icone">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+              </span>
+              Confirmar presença
+            </a>
+            <a href="https://maps.app.goo.gl/1NJSV9fNwVpXWJG7A" id="btnLocalizacao" target="_blank" rel="noopener">
+              <span class="btn-icone">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+              </span>
+              Acessar localização
+            </a>
+          </div>
+        </div>
+      </div>
+      </div>
+      <div class="convite-laco-final">
+        <img src="assets/Laço Final.png" alt="" />
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const convite = document.getElementById('convite');
+    const video = document.getElementById('videoAbertura');
+    const overlay = document.getElementById('playOverlay');
+
+    function playVideo() {
+      video.play().catch(function () {});
+      overlay.classList.add('oculto');
+    }
+
+    overlay.addEventListener('click', playVideo);
+    video.addEventListener('click', function () {
+      if (video.paused) playVideo();
+    });
+
+    video.addEventListener('ended', function () {
+      convite.classList.add('aberto');
+    });
+  </script>
+</body>
+</html>
