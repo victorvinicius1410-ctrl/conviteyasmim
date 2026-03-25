@@ -1,0 +1,8 @@
+{
+  "name": "convite-minha-amada",
+  "private": true,
+  "scripts": {
+    "serve": "npx --yes serve . -p 3750",
+    "start": "npx --yes serve . -p 3750"
+  }
+}

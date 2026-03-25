@@ -1,0 +1,65 @@
+========================================
+  COMO VER O CONVITE NO CURSOR
+========================================
+
+O navegador do Cursor NÃO abre arquivo "file://" e pode mostrar
+"Connection Failed". Use o servidor local abaixo.
+
+----------------------------------------
+  PASSO A PASSO NO CURSOR
+----------------------------------------
+
+1. Iniciar o servidor (uma vez)
+   • No Cursor, abra o terminal: Ctrl+ù ou View > Terminal
+   • Na pasta do convite, digite um dos comandos:
+
+   Se tiver Node instalado:
+     npm run serve
+
+   Se tiver Python instalado:
+     python -m http.server 3750
+
+   OU execute o script (na pasta do convite):
+     .\iniciar-servidor.ps1
+
+   Deixe o terminal aberto (o servidor fica rodando).
+
+2. Abrir no Cursor
+   • Aperte: Ctrl+Shift+P
+   • Digite: Simple Browser
+   • Escolha: "Simple Browser: Show"
+   • No campo de URL cole EXATAMENTE (sem https na frente):
+
+     http://localhost:3750
+
+   • Enter. O convite abre dentro do Cursor.
+
+----------------------------------------
+  SE APARECER "Connection Failed"
+----------------------------------------
+
+• NÃO use "file://" na URL do Cursor — use http://localhost:3750
+• Certifique-se de que o servidor está rodando no terminal (passo 1)
+• A URL correta é: http://localhost:3750  (só isso, sem index.html)
+
+========================================
+  VER MUDANÇAS EM TEMPO REAL (LIVE RELOAD)
+========================================
+
+Opção 1 — Atualização manual (mais simples)
+  1. Deixe o servidor rodando (npm run serve) e abra http://localhost:3750
+  2. Sempre que salvar o index.html (Ctrl+S), aperte F5 no navegador
+     para ver as alterações.
+
+Opção 2 — Atualização automática (Live Server)
+  1. No Cursor: Extensions (Ctrl+Shift+X), busque "Live Server" e instale
+  2. No explorador de arquivos, clique com o botão direito em index.html
+  3. Escolha "Open with Live Server"
+  4. O convite abre no navegador e atualiza sozinho ao salvar (Ctrl+S)
+
+========================================
+  OUTRAS FORMAS DE VER (fora do Cursor)
+========================================
+
+• Duplo clique no index.html → abre no Chrome/Edge
+• Arrastar index.html para uma janela do navegador

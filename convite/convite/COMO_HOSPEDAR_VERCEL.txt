@@ -1,0 +1,103 @@
+========================================
+  COMO HOSPEDAR O CONVITE NA VERCEL
+========================================
+
+O convite é um site estático (HTML + CSS + JS + imagens/vídeo).
+Siga um dos dois métodos abaixo.
+
+----------------------------------------
+  MÉTODO 1 — Pelo site da Vercel (recomendado)
+----------------------------------------
+
+1. CRIAR CONTA
+   • Acesse: https://vercel.com
+   • Clique em "Sign Up" e crie conta com GitHub, GitLab, Bitbucket ou e-mail.
+
+2. COLOCAR O PROJETO NO GITHUB (se ainda não estiver)
+   • Crie um repositório no GitHub (github.com → New repository).
+   • Nome sugerido: convite-yasmim (ou outro).
+   • No computador, abra o terminal na pasta do convite:
+     "Convite da minha amada"
+
+   • Se a pasta ainda NÃO for um repositório Git:
+     git init
+     git add .
+     git commit -m "Convite inicial"
+
+   • Conecte ao GitHub (troque SEU_USUARIO e convite-yasmim pelo seu):
+     git remote add origin https://github.com/SEU_USUARIO/convite-yasmim.git
+     git branch -M main
+     git push -u origin main
+
+3. IMPORTAR NA VERCEL
+   • No painel da Vercel: https://vercel.com/new
+   • Clique em "Import Git Repository".
+   • Escolha o repositório do convite (ex.: convite-yasmim).
+   • Em "Root Directory" deixe em branco (ou . se pedir).
+   • Em "Framework Preset" escolha: Other (ou deixe em None).
+   • Clique em "Deploy".
+   • Aguarde 1–2 minutos.
+
+4. PRONTO
+   • A Vercel vai dar um link tipo: https://convite-yasmim-xxx.vercel.app
+   • Use esse link para enviar o convite.
+   • Se quiser um domínio próprio, em Settings → Domains você pode adicionar.
+
+----------------------------------------
+  MÉTODO 2 — Pelo terminal (Vercel CLI)
+----------------------------------------
+
+1. INSTALAR NODE (se não tiver)
+   • Baixe em: https://nodejs.org (versão LTS).
+
+2. INSTALAR A VERCEL CLI
+   • Abra o terminal (PowerShell ou CMD) e rode:
+     npm install -g vercel
+
+3. FAZER LOGIN
+   • Na pasta do convite ("Convite da minha amada"), rode:
+     vercel login
+   • Siga o passo a passo (e-mail ou GitHub).
+
+4. PUBLICAR O CONVITE
+   • Ainda na pasta do convite, rode:
+     vercel
+
+   • Na primeira vez ele pergunta:
+     - Set up and deploy? (Y/n) → aperte Enter (Y)
+     - Which scope? → escolha sua conta
+     - Link to existing project? (Y/n) → n
+     - Project name? → aperte Enter (usa o nome da pasta) ou digite um nome
+     - In which directory is your code? → ./ (ou aperte Enter)
+
+   • Quando terminar, ele mostra um link (ex.: https://convite-da-minha-amada-xxx.vercel.app).
+   • Para atualizar o site depois, rode de novo: vercel
+
+----------------------------------------
+  O QUE PRECISA ESTAR NA PASTA
+----------------------------------------
+
+Para dar certo, a pasta deve conter pelo menos:
+  • index.html (na raiz)
+  • assets/ (pasta com logo, vídeo, imagens)
+  • 0309.mp4 (vídeo do laço, na raiz)
+  • Foto da menina.png (na raiz)
+  • assets/Laço Final.png
+
+Não é obrigatório: package.json, COMO_ABRIR.txt, etc.
+
+----------------------------------------
+  DÚVIDAS COMUNS
+----------------------------------------
+
+• "O vídeo não toca no celular"
+  Alguns navegadores em 4G exigem que o usuário dê play (já está assim no convite).
+
+• "Quero um link mais bonito"
+  Na Vercel: Project → Settings → Domains → adicione um domínio próprio.
+
+• "Atualizei o convite, como subir de novo?"
+  Método 1: dê git add . → git commit -m "Atualização" → git push. A Vercel atualiza sozinha.
+  Método 2: rode de novo "vercel" na pasta do projeto.
+
+========================================
